@@ -1,4 +1,4 @@
-# Stock-quotes# 股票行情系统
+# 股票行情系统
 
 一个基于Django + AKShare + 原生JavaScript的实时股票行情网页系统。
 
@@ -30,28 +30,33 @@
 
 ```
 akshare_demo/
-├── stock_project/          # Django项目配置
-│   ├── settings.py        # 项目设置
-│   ├── urls.py           # 主URL配置
-│   ├── wsgi.py           # WSGI配置
-│   └── asgi.py           # ASGI配置
-├── stock_app/             # 股票应用
-│   ├── models.py         # 数据模型
-│   ├── views.py          # API视图
-│   ├── serializers.py    # 序列化器
-│   ├── urls.py           # URL路由
-│   ├── admin.py          # 管理后台
-│   └── akshare_service.py # AKShare服务
-├── frontend/              # 前端静态文件
+├── 📂 stock_project/          # Django项目配置
+│   ├── settings.py            # 项目设置
+│   ├── urls.py               # 主URL配置
+│   ├── wsgi.py               # WSGI配置
+│   └── asgi.py               # ASGI配置
+├── 📂 stock_app/               # 股票应用
+│   ├── models.py             # 数据模型
+│   ├── simple_views.py       # 简化API视图
+│   ├── mock_service.py        # 模拟数据服务
+│   ├── akshare_service.py     # AKShare服务
+│   ├── urls.py               # URL路由
+│   ├── admin.py              # 管理后台
+│   └── apps.py               # 应用配置
+├── 📂 frontend/                # 前端静态文件
 │   ├── css/
-│   │   └── styles.css    # 样式文件
+│   │   └── styles.css        # 样式文件
 │   └── js/
-│       └── app.js        # 前端逻辑
-├── templates/             # Django模板
-│   └── index.html        # 主页面
-├── requirements.txt       # Python依赖
-├── manage.py             # Django管理脚本
-└── README.md             # 项目文档
+│       └── app.js            # 前端逻辑
+├── 📂 templates/               # Django模板
+│   └── index.html            # 主页面
+├── 📂 venv/                    # 虚拟环境（已创建）
+├── 📄 requirements.txt         # Python依赖
+├── 📄 quick_start.py          # 快速启动脚本
+├── 📄 PROJECT_STATUS.md       # 项目状态报告
+├── 📄 manage.py               # Django管理脚本
+├── 📄 db.sqlite3              # SQLite数据库
+└── 📄 README.md               # 项目文档
 ```
 
 ## 🚀 快速开始
@@ -60,15 +65,61 @@ akshare_demo/
 
 - Python 3.8+
 - pip
+- Git（可选，用于克隆项目）
 
-### 2. 安装依赖
+### 2. 创建虚拟环境
+
+**强烈建议使用虚拟环境来隔离项目依赖！**
+
+#### Windows系统：
+```bash
+# 创建虚拟环境
+python -m venv venv
+
+# 激活虚拟环境
+venv\Scripts\activate
+
+# 验证虚拟环境（应该显示虚拟环境路径）
+where python
+```
+
+#### macOS/Linux系统：
+```bash
+# 创建虚拟环境
+python3 -m venv venv
+
+# 激活虚拟环境
+source venv/bin/activate
+
+# 验证虚拟环境（应该显示虚拟环境路径）
+which python
+```
+
+#### 虚拟环境管理：
+```bash
+# 激活虚拟环境后，命令提示符会显示 (venv)
+# 例如：(venv) C:\Users\username\Desktop\akshare_demo>
+
+# 退出虚拟环境
+ deactivate
+
+# 重新激活虚拟环境
+# Windows: venv\Scripts\activate
+# macOS/Linux: source venv/bin/activate
+```
+
+### 3. 安装依赖
 
 ```bash
-# 安装Python依赖包
-pip install Django djangorestframework django-cors-headers akshare pandas
+# 确保虚拟环境已激活（命令提示符显示 (venv)）
+# 升级pip到最新版本
+python -m pip install --upgrade pip
 
-# 或者使用requirements.txt
+# 安装项目依赖
 pip install -r requirements.txt
+
+# 或者手动安装核心依赖
+pip install Django djangorestframework django-cors-headers akshare pandas numpy requests python-dotenv
 ```
 
 ### 3. 数据库迁移
@@ -86,42 +137,60 @@ python manage.py createsuperuser
 
 ### 4. 启动服务
 
+#### 方法一：使用快速启动脚本（推荐）
+```bash
+# 确保虚拟环境已激活
+python quick_start.py
+```
+
+#### 方法二：手动启动
 ```bash
 # 启动开发服务器
 python manage.py runserver
 
-# 访问应用
-# 前端页面: http://127.0.0.1:8000/
-# API文档: http://127.0.0.1:8000/api/
-# 管理后台: http://127.0.0.1:8000/admin/
+# 指定端口启动（可选）
+python manage.py runserver 0.0.0.0:8000
 ```
+
+#### 访问应用
+- **前端页面**: http://127.0.0.1:8000/
+- **API接口**: http://127.0.0.1:8000/api/
+- **管理后台**: http://127.0.0.1:8000/admin/
+- **测试端点**: http://127.0.0.1:8000/api/test/
 
 ## 📚 API接口
 
-### 股票相关接口
+### 核心API接口
 
+- `GET /api/test/` - 测试端点（检查服务状态）
+- `GET /api/market/` - 获取市场概览（上证、深证指数）
 - `GET /api/stocks/` - 获取股票列表
 - `GET /api/stocks/{code}/` - 获取股票详情
 - `GET /api/stocks/{code}/realtime/` - 获取实时行情
 - `GET /api/stocks/{code}/history/` - 获取历史数据
+- `GET /api/search/?q={keyword}` - 搜索股票（支持代码和名称）
 
-### 搜索和市场接口
-
-- `GET /api/search/?q={keyword}` - 搜索股票
-- `GET /api/market/` - 获取市场概览
-- `GET /api/list/` - 获取股票列表（分页）
-
-### 请求参数示例
+### API使用示例
 
 ```bash
-# 获取股票历史数据
-GET /api/stocks/000001/history/?start_date=2024-01-01&end_date=2024-01-31&period=daily
+# 测试服务状态
+curl http://127.0.0.1:8000/api/test/
+
+# 获取市场概览
+curl http://127.0.0.1:8000/api/market/
 
 # 搜索股票
-GET /api/search/?q=平安银行
+curl "http://127.0.0.1:8000/api/search/?q=平安"
+curl "http://127.0.0.1:8000/api/search/?q=000001"
 
-# 分页获取股票列表
-GET /api/list/?page=1&page_size=20
+# 获取股票实时行情
+curl http://127.0.0.1:8000/api/stocks/000001/realtime/
+
+# 获取股票历史数据
+curl http://127.0.0.1:8000/api/stocks/000001/history/
+
+# 获取股票详情
+curl http://127.0.0.1:8000/api/stocks/000001/
 ```
 
 ## 🎯 功能模块
@@ -149,18 +218,34 @@ GET /api/list/?page=1&page_size=20
 
 ## 🔧 配置说明
 
-### Django设置 (settings.py)
+### Django设置 (stock_project/settings.py)
 
 ```python
 # AKShare配置
 AKSHARE_TIMEOUT = 30  # 请求超时时间
 AKSHARE_RETRY_COUNT = 3  # 重试次数
 
-# CORS配置
-CORS_ALLOW_ALL_ORIGINS = True  # 开发环境
+# CORS配置（开发环境）
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:8000",
+]
+
+# 静态文件配置
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "frontend",
+]
+
+# 模板配置
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / "templates"],
+        'APP_DIRS': True,
+        # ...
+    },
 ]
 ```
 
@@ -185,26 +270,80 @@ DATABASES = {
 
 ### 开发环境部署
 
-1. 克隆项目
-2. 安装依赖
-3. 配置数据库
-4. 启动服务
+1. **克隆项目**
+   ```bash
+   git clone <repository-url>
+   cd akshare_demo
+   ```
+
+2. **创建虚拟环境**
+   ```bash
+   python -m venv venv
+   # Windows: venv\Scripts\activate
+   # macOS/Linux: source venv/bin/activate
+   ```
+
+3. **安装依赖**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **数据库迁移**
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+
+5. **启动服务**
+   ```bash
+   python quick_start.py  # 推荐方式
+   # 或
+   python manage.py runserver
+   ```
 
 ### 生产环境部署
 
-1. 使用Gunicorn作为WSGI服务器
-2. 配置Nginx反向代理
-3. 使用PostgreSQL数据库
-4. 配置SSL证书
-5. 设置定时任务更新数据
+#### 使用Gunicorn + Nginx
+
+1. **安装Gunicorn**
+   ```bash
+   pip install gunicorn
+   ```
+
+2. **启动Gunicorn**
+   ```bash
+   gunicorn stock_project.wsgi:application --bind 0.0.0.0:8000 --workers 4
+   ```
+
+3. **配置Nginx**
+   ```nginx
+   server {
+       listen 80;
+       server_name your-domain.com;
+       
+       location / {
+           proxy_pass http://127.0.0.1:8000;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+       }
+       
+       location /static/ {
+           alias /path/to/akshare_demo/frontend/;
+       }
+   }
+   ```
+
+#### 使用Docker（推荐）
 
 ```bash
-# 使用Gunicorn启动
-gunicorn stock_project.wsgi:application --bind 0.0.0.0:8000
-
-# Docker部署
+# 构建镜像
 docker build -t stock-app .
+
+# 运行容器
 docker run -p 8000:8000 stock-app
+
+# 后台运行
+docker run -d -p 8000:8000 --name stock-app stock-app
 ```
 
 ## 📊 数据模型
@@ -237,20 +376,45 @@ docker run -p 8000:8000 stock-app
 
 ### 常见问题
 
-1. **AKShare数据获取失败**
+1. **虚拟环境问题**
+   ```bash
+   # 问题：虚拟环境未激活
+   # 解决：确保命令提示符显示 (venv)
+   venv\Scripts\activate  # Windows
+   source venv/bin/activate  # macOS/Linux
+   ```
+
+2. **依赖安装失败**
+   ```bash
+   # 问题：pip安装失败
+   # 解决：升级pip并重试
+   python -m pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
+
+3. **AKShare数据获取失败**
+   - ✅ **系统已内置模拟数据服务**
    - 检查网络连接
    - 确认AKShare版本兼容性
    - 查看API限制和频率
 
-2. **前端无法加载数据**
+4. **前端无法加载数据**
    - 检查CORS配置
    - 确认API端点正确
    - 查看浏览器控制台错误
+   - 访问测试端点：http://127.0.0.1:8000/api/test/
 
-3. **数据库连接问题**
+5. **数据库连接问题**
    - 检查数据库配置
-   - 确认迁移已执行
+   - 确认迁移已执行：`python manage.py migrate`
    - 查看数据库权限
+
+6. **端口占用问题**
+   ```bash
+   # 问题：8000端口被占用
+   # 解决：使用其他端口
+   python manage.py runserver 8001
+   ```
 
 ### 调试模式
 
@@ -283,6 +447,22 @@ LOGGING = {
 4. 推送到分支
 5. 创建Pull Request
 
+## 📊 项目状态
+
+### ✅ 当前功能状态
+- **后端服务**: ✅ 正常运行
+- **API接口**: ✅ 全部可用
+- **前端界面**: ✅ 响应式设计
+- **数据服务**: ✅ 模拟数据 + AKShare回退
+- **数据库**: ✅ SQLite已配置
+- **虚拟环境**: ✅ 已创建并配置
+
+### 🎯 快速验证
+访问以下链接验证系统状态：
+- **主页面**: http://127.0.0.1:8000/
+- **API测试**: http://127.0.0.1:8000/api/test/
+- **市场概览**: http://127.0.0.1:8000/api/market/
+
 ## 📄 许可证
 
 MIT License
@@ -293,4 +473,8 @@ MIT License
 
 ---
 
-**注意**: 本项目仅用于学习和研究目的，股票数据仅供参考，不构成投资建议。
+**⚠️ 重要提示**: 
+- 本项目仅用于学习和研究目的
+- 股票数据仅供参考，不构成投资建议
+- 请确保在虚拟环境中运行项目
+- 建议定期更新依赖包版本
