@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>股票行情系统</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">📈 股票行情系统</h1>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="输入股票代码或名称搜索..." class="search-input">
+                    <button id="searchBtn" class="search-btn">搜索</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 市场概览 -->
+        <section class="market-overview">
+            <h2>市场概览</h2>
+            <div class="overview-cards">
+                <div class="overview-card" id="shIndexCard">
+                    <h3>上证指数</h3>
+                    <div class="index-value" id="shIndexValue">--</div>
+                    <div class="index-change" id="shIndexChange">--</div>
+                </div>
+                <div class="overview-card" id="szIndexCard">
+                    <h3>深证成指</h3>
+                    <div class="index-value" id="szIndexValue">--</div>
+                    <div class="index-change" id="szIndexChange">--</div>
+                </div>
+                <div class="overview-card">
+                    <h3>市场统计</h3>
+                    <div class="market-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">总数:</span>
+                            <span class="stat-value" id="totalStocks">--</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label up">上涨:</span>
+                            <span class="stat-value" id="upCount">--</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label down">下跌:</span>
+                            <span class="stat-value" id="downCount">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <!-- 搜索结果 -->
+            <section class="search-results" id="searchResults" style="display: none;">
+                <h2>搜索结果</h2>
+                <div class="results-container" id="resultsContainer">
+                    <!-- 搜索结果将在这里显示 -->
+                </div>
+            </section>
+
+            <!-- 股票详情 -->
+            <section class="stock-detail" id="stockDetail" style="display: none;">
+                <div class="detail-header">
+                    <h2 id="stockTitle">股票详情</h2>
+                    <button id="backBtn" class="back-btn">返回</button>
+                </div>
+                
+                <!-- 实时行情 -->
+                <div class="realtime-info">
+                    <div class="price-info">
+                        <div class="current-price" id="currentPrice">--</div>
+                        <div class="price-change" id="priceChange">--</div>
+                    </div>
+                    <div class="trading-info">
+                        <div class="info-item">
+                            <span class="label">今开:</span>
+                            <span class="value" id="openPrice">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">最高:</span>
+                            <span class="value" id="highPrice">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">最低:</span>
+                            <span class="value" id="lowPrice">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">昨收:</span>
+                            <span class="value" id="preClose">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">成交量:</span>
+                            <span class="value" id="volume">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">成交额:</span>
+                            <span class="value" id="amount">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 图表区域 -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>价格走势</h3>
+                        <div class="chart-controls">
+                            <button class="period-btn active" data-period="5">5日</button>
+                            <button class="period-btn" data-period="30">30日</button>
+                            <button class="period-btn" data-period="90">90日</button>
+                        </div>
+                    </div>
+                    <canvas id="priceChart" width="800" height="400"></canvas>
+                </div>
+
+                <!-- 历史数据表格 -->
+                <div class="history-table-container">
+                    <h3>历史数据</h3>
+                    <div class="table-wrapper">
+                        <table class="history-table" id="historyTable">
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>开盘价</th>
+                                    <th>最高价</th>
+                                    <th>最低价</th>
+                                    <th>收盘价</th>
+                                    <th>涨跌幅</th>
+                                    <th>成交量</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <!-- 历史数据将在这里显示 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 热门股票 -->
+            <section class="hot-stocks" id="hotStocks">
+                <h2>热门股票</h2>
+                <div class="loading" id="loadingIndicator">正在加载数据...</div>
+                <div class="stocks-grid" id="stocksGrid">
+                    <!-- 股票列表将在这里显示 -->
+                </div>
+                <div class="pagination" id="pagination">
+                    <button id="prevPage" class="page-btn" disabled>上一页</button>
+                    <span id="pageInfo">第 1 页</span>
+                    <button id="nextPage" class="page-btn">下一页</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 错误提示模态框 -->
+    <div class="modal" id="errorModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h3>错误提示</h3>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
+
+    <!-- 加载脚本 -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

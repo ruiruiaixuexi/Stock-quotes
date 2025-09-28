@@ -1,0 +1,81 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# 股票行情网页开发方案
+
+基于您的需求，我设计了一个完整的股票行情网页方案，整合了Django后端和JavaScript前端。
+
+## 完整提示词
+
+**项目目标**：开发一个实时股票行情网页，使用Django作为后端框架，AKShare获取股票数据，前端使用原生JavaScript实现动态数据展示。
+
+**技术架构**：
+- 后端：Django + Django REST Framework + AKShare
+- 前端：HTML5 + CSS3 + 原生JavaScript + Chart.js
+- 数据交互：RESTful API + AJAX
+
+## 核心功能模块
+
+### 1. 后端Django应用
+- **数据模型**：定义股票基本信息和价格数据模型
+- **AKShare服务**：封装股票数据获取逻辑
+- **REST API**：提供实时行情、历史数据和搜索接口
+- **URL路由**：配置API端点
+
+### 2. 前端界面
+- **响应式布局**：适配不同屏幕尺寸
+- **搜索功能**：按代码或名称搜索股票
+- **实时显示**：当前价格和涨跌幅
+- **图表展示**：K线图显示历史走势
+- **数据表格**：详细历史交易数据
+
+### 3. 数据流设计
+```
+AKShare → Django API → JavaScript → 前端展示
+```
+
+## 实现步骤
+
+### 第一阶段：后端开发
+1. 创建Django项目和stock_app应用
+2. 定义数据模型（Stock, StockPrice）
+3. 实现AKShare数据服务类
+4. 创建REST API视图
+5. 配置URL路由
+
+### 第二阶段：前端开发
+1. 创建基础HTML页面结构
+2. 实现CSS样式和响应式布局
+3. 开发JavaScript核心逻辑（StockApp类）
+4. 集成Chart.js图表显示
+5. 实现搜索和数据显示功能
+
+### 第三阶段：集成测试
+1. 测试API接口连通性
+2. 验证前端数据渲染
+3. 优化性能和用户体验
+
+## 关键代码文件
+
+**后端**：
+- `models.py` - 数据模型定义
+- `akshare_service.py` - 数据获取服务
+- `views.py` - API视图函数
+- `urls.py` - URL配置
+
+**前端**：
+- `index.html` - 主页面结构
+- `styles.css` - 样式设计
+- `app.js` - 核心JavaScript逻辑
+
+## 扩展建议
+
+1. **实时更新**：添加WebSocket支持实现实时数据推送
+2. **用户功能**：增加自选股列表和个性化设置
+3. **技术指标**：集成MACD、RSI等技术分析工具
+4. **多市场支持**：扩展港股、美股等市场数据
+5. **移动端优化**：开发PWA或响应式移动界面
+
