@@ -128,18 +128,28 @@ pip install akshare
 ```
 akshare_demo/
 ├── 📂 stock_project/      # Django配置
+│   ├── settings.py       # 项目设置
+│   ├── urls.py          # 主URL配置
+│   ├── wsgi.py          # WSGI配置
+│   └── asgi.py          # ASGI配置
 ├── 📂 stock_app/          # 股票应用
 │   ├── models.py         # 数据模型
 │   ├── simple_views.py   # 简化视图
 │   ├── mock_service.py   # 模拟数据服务
-│   └── urls.py           # URL路由
+│   ├── akshare_service.py # AKShare服务
+│   ├── urls.py           # URL路由
+│   ├── admin.py          # 管理后台
+│   └── apps.py           # 应用配置
 ├── 📂 frontend/           # 前端文件
 │   ├── css/styles.css    # 样式文件
 │   └── js/app.js         # 前端逻辑
 ├── 📂 templates/          # HTML模板
+│   └── index.html        # 主页面
 ├── 📄 requirements.txt    # 依赖列表
 ├── 📄 README.md          # 项目文档
-└── 📄 quick_start.py     # 快速启动脚本
+├── 📄 quick_start.py     # 快速启动脚本
+├── 📄 manage.py          # Django管理脚本
+└── 📄 .gitignore         # Git忽略文件
 ```
 
 ## 🎉 项目亮点

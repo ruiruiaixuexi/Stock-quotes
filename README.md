@@ -1,4 +1,4 @@
-# 股票行情系统
+# Stock-quotes# 股票行情系统
 
 一个基于Django + AKShare + 原生JavaScript的实时股票行情网页系统。
 
