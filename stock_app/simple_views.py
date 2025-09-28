@@ -117,3 +117,4 @@ class SimpleHistoryView(View):
         except Exception as e:
             logger.error(f"历史数据错误: {str(e)}")
             return JsonResponse({'error': str(e)}, status=500)
+

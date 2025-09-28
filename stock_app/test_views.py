@@ -40,3 +40,4 @@ class TestView(View):
                 'status': 'error',
                 'message': str(e)
             }, status=500)
+

@@ -131,3 +131,4 @@ class MockDataService:
             'down_count': random.randint(2, 5),
             'flat_count': random.randint(0, 2)
         }
+
